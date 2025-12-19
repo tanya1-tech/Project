@@ -1,0 +1,39 @@
+import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react'; 
+
+function Auth()
+{
+    const navigate = useNavigate();
+
+    useEffect(()=>{
+     
+     var path=window.location.pathname;
+     var ar=path.split("/");
+
+     if(path=="/admin" || path=="/manageusers")
+     {
+      if(!localStorage.getItem("token") || localStorage.getItem("role")!="admin")   
+        navigate("/logout");
+     }
+     else if(path=="/user" || ar[1]=="payment" || path=="/success" || path=="/cancel")
+     {
+      if(!localStorage.getItem("token") || localStorage.getItem("role")!="user")   
+        navigate("/logout");
+     }
+     else
+     {
+        if(localStorage.getItem("role")=="admin")            
+            navigate("/admin");
+        else if(localStorage.getItem("role")=="user")
+            navigate("/user");
+        else
+            navigate(path);    
+     }
+    },[]);
+    
+    return(
+        <></>
+    )
+}
+
+export default Auth;
